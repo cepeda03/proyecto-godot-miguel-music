@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://goq0q1iqpmcc"]
+
+[ext_resource type="Script" uid="uid://bskbrt6388g4c" path="res://scripts/main.gd" id="1_rvslj"]
+[ext_resource type="PackedScene" uid="uid://dqi1nsw1p80kt" path="res://scenes/Mob.tscn" id="2_0bbpv"]
+[ext_resource type="PackedScene" uid="uid://dulfrdqjwb5uu" path="res://scenes/player.tscn" id="3_0bbpv"]
+[ext_resource type="Texture2D" uid="uid://uwticprurham" path="res://imagenes/mm.png" id="4_vcsgt"]
+[ext_resource type="PackedScene" uid="uid://dp3sxo6gemr0l" path="res://scenes/HUD.tscn" id="5_vcsgt"]
+[ext_resource type="AudioStream" uid="uid://dvlap6t5gcmrl" path="res://assets/music/House In a Forest Loop.ogg" id="6_nxtc6"]
+[ext_resource type="AudioStream" uid="uid://cv0grlnxydo5x" path="res://assets/sfx/gameover.wav" id="7_jlsqs"]
+
+[sub_resource type="Curve2D" id="Curve2D_rarhs"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 475.517, 32.180515, 0, 0, 0, 0, 477, 712, 0, 0, 0, 0, -2.1228342, 705.06775, 0, 0, 0, 0, 478.02817, 708.63617, 0, 0, 0, 0, 475, 8)
+}
+point_count = 5
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_rvslj")
+mob_scene = ExtResource("2_0bbpv")
+metadata/_edit_horizontal_guides_ = [-40507.0, -33277.0]
+
+[node name="HUD" parent="." instance=ExtResource("5_vcsgt")]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -22.0
+offset_top = -29.0
+offset_right = 487.0
+offset_bottom = 705.0
+texture = ExtResource("4_vcsgt")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Player" parent="." instance=ExtResource("3_0bbpv")]
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 450)
+
+[node name="MobPath" type="Path2D" parent="."]
+rotation = 0.0028592516
+curve = SubResource("Curve2D_rarhs")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(475.517, 32.180515)
+rotation = 1.5686148
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_nxtc6")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_jlsqs")
+
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

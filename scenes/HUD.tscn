@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp3sxo6gemr0l"]
+
+[ext_resource type="Script" uid="uid://b7weyuxrqkkv1" path="res://scripts/hud.gd" id="1_fls4u"]
+[ext_resource type="FontFile" uid="uid://1j8ukm4oqidb" path="res://ui/Xolonium-Regular.ttf" id="2_1etfg"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_fls4u")
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 32.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_1etfg")
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44400004
+anchor_right = 0.5
+anchor_bottom = 0.44400004
+offset_left = -240.0
+offset_top = -79.68002
+offset_right = 240.0
+offset_bottom = 79.31998
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_1etfg")
+theme_override_font_sizes/font_size = 64
+text = "Dodge the Creeps"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="MessageTimer" to="." method="_on_timer_timeout"]
